@@ -315,43 +315,43 @@ const random_number = getRandomInt(9);
 save_random_number = random_number;
   if(random_number == 0)
     {
-var event = 'LeagueOfMemes'
+var event = 'Awww'
 }
   else if(random_number == 1)
     {
-      var event = 'LeagueOfMemes'
+      var event = 'Awww'
     }
   else if(random_number == 2)
     {
-      var event = 'LeagueOfMemes'
+      var event = 'Awww'
     }
       else if(random_number == 3)
       {
-      var event = 'LeagueOfMemes'
+      var event = 'Awww'
       }
       else if(random_number == 4)
       {
-      var event = 'LeagueOfMemes'
+      var event = 'Awww'
       }
   else if(random_number == 5)
     {
-      var event = 'LeagueOfMemes'
+      var event = 'rarepuppers'
     }
    else if(random_number == 6)
     {
-      var event = 'LeagueOfMemes'
+      var event = 'Cutedogsreddit'
     }
    else if(random_number == 7)
     {
-      var event = 'WildRiftMemes'
+      var event = 'Eyebleach'
     }
    else if(random_number == 8)
     {
-      var event = 'WildRiftMemes'
+      var event = 'Eyebleach'
     }
   else
   {
-      var event = 'WildRiftMemes'
+      var event = 'Awww'
   }
 
         var urlfunny = null;
