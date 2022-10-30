@@ -495,11 +495,10 @@ let URL480 = post.url + "/DASH_480.mp4";
 let URL360 = post.url + "/DASH_360.mp4";
 let URL240 = post.url + "/DASH_240.mp4";
 // Make a function or variable to get the URL you want, in my case it's the episode URL.
-
+var FinalQuality = false;
+        
 let xhr = new XMLHttpRequest();
 // Requests the headers that would be returned if the HEAD request's URL was instead requested with the HTTP GET method
-var FinalQuality = false;
-xhr.open('HEAD', URL720, true);
 
 xhr.onload = function() {
 // In here I get the Content Type from the HEAD of the response
@@ -517,23 +516,62 @@ xhr.onload = function() {
 
 };
 
-xhr.send();
         wait(3000);
 if(FinalQuality == false)
 {
   xhr.open('HEAD', URL720, true);
   xhr.send();
+  
   wait(10000);
+  xhr.abort();
   if(FinalQuality == false)
   {
     xhr.open('HEAD', URL480, true);
     xhr.send();
+let xhr = new XMLHttpRequest();
+// Requests the headers that would be returned if the HEAD request's URL was instead requested with the HTTP GET method
+
+xhr.onload = function() {
+// In here I get the Content Type from the HEAD of the response
+    let contentType = xhr.getResponseHeader('Content-Type');
+    if (contentType == 'video/mp4'){
+        console.log(contentType);
+        console.log("This is mp4 video")
+        var FinalQuality = true;
+//Function to play mp4 file
+    }
+    else {
+        console.log("Quality don't exist (480p)")
+// Function to play HLS m3u8 file
+    }
+
+};
     wait(10000);
+    xhr.abort();
     if(FinalQuality == false)
     {
       xhr.open('HEAD', URL360, true);
       xhr.send();
+let xhr = new XMLHttpRequest();
+// Requests the headers that would be returned if the HEAD request's URL was instead requested with the HTTP GET method
+
+xhr.onload = function() {
+// In here I get the Content Type from the HEAD of the response
+    let contentType = xhr.getResponseHeader('Content-Type');
+    if (contentType == 'video/mp4'){
+        console.log(contentType);
+        console.log("This is mp4 video")
+        var FinalQuality = true;
+//Function to play mp4 file
+    }
+    else {
+        console.log("Quality don't exist (360p)")
+// Function to play HLS m3u8 file
+    }
+
+};
       wait(10000);
+      xhr.abort();
       if(FinalQuality == false)
       {
         var FinalQuality = post.url + "/DASH_240.mp4";
@@ -564,6 +602,7 @@ if(FinalQuality == false)
         if(FinalQuality != false)
           {
             downloadFile(FinalQuality, 'assets');
+            console.log("Downloaded special quality !")
           }
         else
           {
