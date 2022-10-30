@@ -372,7 +372,7 @@ redditFetch({
     allowVideo: true
 
 }).then(post => {
-    console.table(post);
+    //console.table(post);
     if(post.post_hint == 'hosted:video')
       {
         urlfunny = post.url + "/DASH_240.mp4";
