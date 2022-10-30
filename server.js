@@ -3,7 +3,7 @@ const Twitter = require("twitter")
 const fs = require("fs")
 var request = require('request');
 const justreddit = require("justreddit");
-
+var already_vids = [];
 const express = require( 'express' ),
       app = express(),
       CronJob = require( 'cron' ).CronJob,
@@ -219,7 +219,6 @@ downloadFile(VIDEO_URL, 'assets');
   console.log(old_date)
   
   var urltype = null;
-  var already_vids = [];
   var media_title = null;
   var image_title = null;
   var next_post_url = null
@@ -388,7 +387,7 @@ redditFetch({
 
   if(already_vids.includes(next_post_url) == false)
     {
-      already_vids.push(next_post_url);
+      //already_vids.push(next_post_url);
     }
   
   
@@ -500,7 +499,7 @@ let URL240 = post.url + "/DASH_240.mp4";
 let xhr = new XMLHttpRequest();
 // Requests the headers that would be returned if the HEAD request's URL was instead requested with the HTTP GET method
 var FinalQuality = false;
-xhr.open('HEAD', URL1080, true);
+xhr.open('HEAD', URL720, true);
 
 xhr.onload = function() {
 // In here I get the Content Type from the HEAD of the response
@@ -512,7 +511,7 @@ xhr.onload = function() {
 //Function to play mp4 file
     }
     else {
-        console.log("Quality don't exist (1080p)")
+        console.log("Quality don't exist (720p)")
 // Function to play HLS m3u8 file
     }
 
@@ -524,26 +523,30 @@ if(FinalQuality == false)
 {
   xhr.open('HEAD', URL720, true);
   xhr.send();
-  wait(3000);
+  wait(10000);
   if(FinalQuality == false)
   {
     xhr.open('HEAD', URL480, true);
     xhr.send();
-    wait(3000);
+    wait(10000);
     if(FinalQuality == false)
     {
       xhr.open('HEAD', URL360, true);
       xhr.send();
-      wait(3000);
+      wait(10000);
       if(FinalQuality == false)
       {
         var FinalQuality = post.url + "/DASH_240.mp4";
         console.log("QUALITY : " + FinalQuality);
-        wait(3000);
+        wait(10000);
       }
+      else
+      {
+        
         var FinalQuality = post.url + "/DASH_360.mp4";
         console.log("QUALITY : " + FinalQuality);
-      wait(3000);
+      wait(10000);
+      }
     }
     else
       {
@@ -557,11 +560,7 @@ if(FinalQuality == false)
       console.log("QUALITY : " + FinalQuality);
     }
 }
-        else
-        {
-          var FinalQuality = post.url + "/DASH_1080.mp4";
-          console.log("QUALITY : " + FinalQuality);
-        }
+        wait(10000);
         if(FinalQuality != false)
           {
             downloadFile(FinalQuality, 'assets');
@@ -584,7 +583,7 @@ if(FinalQuality == false)
         urlfunny = post.url;
         next_post_url = post.url;
         console.log("Found ! PNG")
-      already_vids.push(next_post_url);
+      //already_vids.push(post.url);
 
       //ITS A PNG
       image_title = null;
@@ -748,7 +747,6 @@ function finalizeUpload(mediaId) {
      console.log("Promise Rejected (code: 357)");
 });
 }
-
 function publishStatusUpdate(mediaId) {
   return new Promise(function(resolve, reject) {
     client.post("statuses/update", {
@@ -762,6 +760,7 @@ function publishStatusUpdate(mediaId) {
       } else {
         old_date = new Date();
         console.log("Successfully uploaded media and tweeted!")
+        already_vids.push(next_post_url);
         refresh();
         resolve(data)
 
@@ -791,6 +790,7 @@ T.post('media/upload', { media_data: base64image }, function (err, data, respons
  
       T.post('statuses/update', params, function (err, data, response) {
         console.log("Successfully uploaded media and tweeted! PNG !")
+        already_vids.push(next_post_url);
         old_date = new Date();
         FindMedia();
         next_post_url = null;
@@ -819,7 +819,7 @@ T.post('media/upload', { media_data: base64image }, function (err, data, respons
             
   }
   
-
+  
       ( new CronJob( '0 * * * *', function() {
 //SendMedia();
         console.log("already_vids: " + already_vids);
@@ -855,9 +855,8 @@ T.post('favorites/create', { id: retweetId })
     console.log(error)
   }
 
-        */
+     */   
   } ) ).start();
-
 
   
   ( new CronJob( '*/3 * * * *', function() {
@@ -938,6 +937,10 @@ getVideoDurationInSeconds('assets/video.mp4').then((duration) => {
                 console.error(err)
               }
             }
+          else
+            {
+              FindMedia();
+            }
         
         }
       else
@@ -956,11 +959,18 @@ getVideoDurationInSeconds('assets/video.mp4').then((duration) => {
            }
       else if(next_post_url.substr(next_post_url.length-3, 3) == "png")
         {
+          if(already_vids.includes(next_post_url) == false)
+            {
           //IF IMAGE !!
           ok = true;
           console.log("Its ok ! ITS A PNG !!");
           console.log("Seems good, next post will be :")
           console.log("Next post : " + next_post_url);
+            }
+          else
+            {
+              FindMedia();
+            }
         }
     else
       {
@@ -977,5 +987,3 @@ getVideoDurationInSeconds('assets/video.mp4').then((duration) => {
 } ) ).start();
   
 })
-
-// // axios cheerio child_process consola cron dotenv encoding eventemitter3 exec express ffmetadata ffmpeg fluent-ffmpeg fs get-video-duration got heroku http https iconv-lite justreddit node-fetch path random-puppy random-reddit reddit-fetch reddit-image-fetcher reddit-interfaces reddit-posts request simple-mem-cache twit twitter twitter-api-client twitter-api-v2 twitter-trends-scraper twitter-video twittertrendsapi.js unique-random-array xmlhttprequest
