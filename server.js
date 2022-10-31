@@ -576,7 +576,7 @@ if(FinalQuality == false)
   console.log("end ffmpeg")
           
         }
-  else
+  else if (post.url.substr(post.url.length-3, 3) == "png")
     {
         if(already_vids.includes(post.url) == false)
     {
@@ -630,7 +630,11 @@ downloadFile(IMAGE_URL, 'assets');
         {
           FindMedia();
         }
-          }          
+          }
+  else
+    {
+      FindMedia();
+    }
   });
 
 } catch(error){
@@ -895,11 +899,6 @@ T.post('favorites/create', { id: retweetId })
               console.log(new_date.getHours() - old_date.getHours())
               console.log("Next : " + next_post_url)
               console.log("---")
-    if(((new_date.getHours() - old_date.getHours() + 0.1) > 1) || ((new_date.getHours() - old_date.getHours()) < 0))
-      {
-        console.log("START SENDMEDIA !!")
-        SendMedia();
-      }
         }
 var ok = false;
 
@@ -932,6 +931,11 @@ getVideoDurationInSeconds('assets/video.mp4').then((duration) => {
                 console.log("Full Media Exist !!")
                 console.log("Full Media Size :" + mediaFullSize);
                   console.log("Title : " + media_title);
+                      if(((new_date.getHours() - old_date.getHours() + 0.1) > 1) || ((new_date.getHours() - old_date.getHours()) < 0))
+      {
+        console.log("START SENDMEDIA !!")
+        SendMedia();
+      }
                 }
               } catch(err) {
                 console.error(err)
@@ -966,6 +970,11 @@ getVideoDurationInSeconds('assets/video.mp4').then((duration) => {
           console.log("Its ok ! ITS A PNG !!");
           console.log("Seems good, next post will be :")
           console.log("Next post : " + next_post_url);
+                  if(((new_date.getHours() - old_date.getHours() + 0.1) > 1) || ((new_date.getHours() - old_date.getHours()) < 0))
+      {
+        console.log("START SENDMEDIA !!")
+        SendMedia();
+      }
             }
           else
             {
