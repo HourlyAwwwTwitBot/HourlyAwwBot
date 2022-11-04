@@ -365,7 +365,6 @@ const redditFetch = require('reddit-fetch');
 
 redditFetch({
     subreddit: event,
-    sort : 'hot',
     allowNSFW: false,
     allowModPost: false,
     allowCrossPost: false,
@@ -375,8 +374,8 @@ redditFetch({
     console.table(post);
     if(post.post_hint == 'hosted:video')
       {
-        urlfunny = post.url + "/DASH_480.mp4";
-        next_post_url = post.url + "/DASH_480.mp4";
+        urlfunny = post.url + "/DASH_720.mp4";
+        next_post_url = post.url + "/DASH_720.mp4";
         console.log("Found !")
         media_title = post.title;
         //console.table(post);//240
@@ -499,7 +498,7 @@ let URL240 = post.url + "/DASH_240.mp4";
 let xhr = new XMLHttpRequest();
 // Requests the headers that would be returned if the HEAD request's URL was instead requested with the HTTP GET method
 var FinalQuality = false;
-xhr.open('HEAD', URL480, true);
+xhr.open('HEAD', URL720, true);
 
 xhr.onload = function() {
 // In here I get the Content Type from the HEAD of the response
@@ -536,7 +535,7 @@ if(FinalQuality == false)
       wait(10000);
       if(FinalQuality == false)
       {
-        var FinalQuality = post.url + "/DASH_480.mp4";
+        var FinalQuality = post.url + "/DASH_720.mp4";
         console.log("QUALITY : " + FinalQuality);
         wait(10000);
       }
